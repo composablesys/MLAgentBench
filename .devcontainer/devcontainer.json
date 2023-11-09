@@ -1,0 +1,8 @@
+{
+    "hostRequirements": {
+        "gpu": "optional"
+    },
+    "build": {
+        "dockerfile": "Dockerfile"
+    }
+}
