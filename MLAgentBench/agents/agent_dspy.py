@@ -78,7 +78,7 @@ class ResearchDspyMod(dspy.Module):
         self.env = env
         self.agent = agent
         self.research = dspy.Predict(ResearchTask)
-        self.summarize = dspy.Predict(SummerizationTask)
+        self.summarize = dspy.Predict(SummerizationTask, lm = dspy.OpenAI( args.fast_llm_name))
 
     def forward(self, **kwargs):
         last_steps = self.args.max_steps_in_context
@@ -240,10 +240,11 @@ class DSPyAgent(Agent):
         self.valid_format_entires = ["Reflection",  "Research Plan and Status","Fact Check", "Thought","Action", "Action Input"] # use all entries by default
         if args.valid_format_entires:
             self.valid_format_entires = args.valid_format_entires
+        llm = dspy.OpenAI(model=args.llm_name)
+        dspy.settings.configure(lm=llm)
         self.dspyMod = ResearchDspyMod(args,env,self)
+        
         
 
     def run(self, env):
         return self.dspyMod()
-
-
