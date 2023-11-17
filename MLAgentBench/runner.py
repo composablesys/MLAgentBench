@@ -9,6 +9,7 @@ from MLAgentBench.environment import Environment
 from MLAgentBench.agents.agent import Agent, SimpleActionAgent, ReasoningActionAgent
 from MLAgentBench.agents.agent_research import ResearchAgent
 from MLAgentBench.agents.agent_langchain  import LangChainAgent
+from MLAgentBench.agents.agent_dspy  import DSPyAgent
 try:
     from MLAgentBench.agents.agent_autogpt  import AutoGPTAgent
 except:
@@ -72,7 +73,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     print(args, file=sys.stderr)
-    if args.no_retrieval or args.agent_type != "ResearchAgent":
+    if args.no_retrieval or (args.agent_type != "ResearchAgent" and args.agent_type != "DSPyAgent") :
         # should not use these actions when there is no retrieval
         args.actions_remove_from_prompt.extend(["Retrieval from Research Log", "Append Summary to Research Log", "Reflection"])
     LLM.FAST_MODEL = args.fast_llm_name
